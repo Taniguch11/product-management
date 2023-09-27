@@ -29,6 +29,7 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>ID</th>
                                 <th>名前</th>
                                 <th>種別</th>
@@ -40,6 +41,7 @@
                         <tbody>
                             @foreach ($items as $item)
                                 <tr>
+                                    <td><span class="badge badge-pill badge-danger" data-postdate="{{ $item->created_at }}">NEW</span></td>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->type }}</td>
@@ -68,7 +70,29 @@
 @stop
 
 @section('css')
+<style>
+    .badge {
+    display: none;
+    }
+    .badge.is-show {
+        display: inline-block;
+    }
+</style>
 @stop
 
 @section('js')
+<script>
+    // newアイコンの表示日数 
+    var periodDay = 1;
+
+    var current = new Date();
+    var postdate = document.querySelectorAll('[data-postdate]');
+    for (var i = 0; i < postdate.length; i++) {
+        var d = new Date(postdate[i].dataset.postdate);
+        d.setDate(d.getDate() + periodDay);
+    if(current < d) {
+        postdate[i].classList.add('is-show');
+    }
+}
+</script>
 @stop
