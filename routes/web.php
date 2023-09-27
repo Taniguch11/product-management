@@ -27,6 +27,9 @@ Route::group(['prefix' => 'items', 'as' => 'items.'], function () {
     Route::get('index', [App\Http\Controllers\ItemController::class, 'index'])->name('index');
     // 検索
     Route::get('search', [App\Http\Controllers\ItemController::class, 'search'])->name('search');
+    // ソート
+    Route::get('list', [App\Http\Controllers\ItemController::class, 'list'])->name('list');
+
 
     // 商品登録画面
     Route::get('create', [App\Http\Controllers\ItemController::class, 'create'])->name('create');

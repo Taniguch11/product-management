@@ -24,8 +24,38 @@ class ItemController extends Controller
     public function index()
     {
         // itemsテーブルに入っているレコードをすべて取得する
-        $items = Item::paginate(5);
+        // $items = Item::all();
+        $items = Item::paginate(10)->withQueryString();
         return view('item.index', compact('items'));
+    }
+
+    /**
+     * ソート機能
+     */
+    public function list(Request $request)
+    {
+        $sort = $request->get('sort');
+            if ($sort) {
+                if ($sort === '1') {
+                    $items = Item::orderBy('created_at', 'DESC')->get();
+                    } elseif ($sort === '2') {
+                        $items = Item::orderBy('created_at', 'ASC')->get();
+
+                    } elseif ($sort === '3') {
+                        $items = Item::orderBy('updated_at', 'DESC')->get();
+                    } elseif ($sort === '4') {
+                        $items = Item::orderBy('updated_at', 'ASC')->get();
+
+                    } elseif ($sort === '5') {
+                        $items = Item::orderBy('name', 'ASC')->get();
+                    } elseif ($sort === '6') {
+                        $items = Item::orderBy('name', 'DESC')->get();
+                    }
+            } else {
+                $items = Item::all();
+            }
+
+        return view('item.index', compact('items', 'sort'));
     }
 
     /**
@@ -34,7 +64,8 @@ class ItemController extends Controller
     public function search(Request $request)
     {
         // itemsテーブルに入っているレコードをすべて取得する
-        $items = Item::paginate(5);
+        // $items = Item::all();
+        $items = Item::paginate(10);
 
         //キーワード受け取り
         $keyword = $request->input('keyword');

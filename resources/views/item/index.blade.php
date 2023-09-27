@@ -7,6 +7,11 @@
 @stop
 
 @section('content')
+    <form action="{{ route('items.list') }}">
+        <button type="submit" class="btn btn-outline-success" name="sort" value="@if (!isset($sort) || $sort !== '1') 1 @elseif ($sort === '1') 2 @endif">作成日順</button>
+        <button type="submit" class="btn btn-outline-success" name="sort" value="@if (!isset($sort) || $sort !== '3') 3 @elseif ($sort === '3') 4 @endif">更新日順</button>
+        <button type="submit" class="btn btn-outline-success" name="sort" value="@if (!isset($sort) || $sort !== '5') 5 @elseif ($sort === '5') 6 @endif">名前順</button>
+    </form>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -28,6 +33,7 @@
                                 <th>名前</th>
                                 <th>種別</th>
                                 <th>詳細</th>
+                                <th>作成日</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -38,6 +44,7 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->type }}</td>
                                     <td>{{ $item->detail }}</td>
+                                    <td><small>{{$item->created_at}}</small></td>
                                     <td>
                                         <div class="input-group-edit">
                                             <a href="/items/edit/{{ $item->id }}" class="btn btn-default">編集</a>
@@ -45,9 +52,15 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            {{ $items->withQueryString()->links('pagination::bootstrap-5') }}
                         </tbody>
                     </table>
+
+                    <!-- 
+                    You can use Tailwind CSS Pagination as like here:
+                    {!! $items->withQueryString()->links() !!}        
+                -->
+
+                    {!! $items->links('pagination::bootstrap-5') !!}
                 </div>
             </div>
         </div>

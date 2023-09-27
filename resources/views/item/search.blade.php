@@ -54,9 +54,15 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            {{ $items->withQueryString()->links('pagination::bootstrap-5') }}
                         </tbody>
                     </table>
+
+                    <!-- 
+                    You can use Tailwind CSS Pagination as like here:
+                    {!! $items->withQueryString()->links() !!}        
+                -->
+                
+                    {!! $items->withQueryString()->links('pagination::bootstrap-5') !!}
                 </div>
             </div>
         </div>
