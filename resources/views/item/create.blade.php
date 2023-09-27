@@ -20,7 +20,7 @@
             @endif
 
             <div class="card card-primary">
-                <form method="POST">
+                <form action="{{ route('items.create')}}" method="POST">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">

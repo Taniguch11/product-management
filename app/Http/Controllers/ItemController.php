@@ -23,16 +23,41 @@ class ItemController extends Controller
      */
     public function index()
     {
-        // 商品一覧取得
-        $items = Item::all();
-
+        // itemsテーブルに入っているレコードをすべて取得する
+        $items = Item::paginate(5);
         return view('item.index', compact('items'));
+    }
+
+    /**
+     * 商品検索
+     */
+    public function search(Request $request)
+    {
+        // itemsテーブルに入っているレコードをすべて取得する
+        $items = Item::paginate(5);
+
+        //キーワード受け取り
+        $keyword = $request->input('keyword');
+
+        //クエリ生成
+        $query = Item::query();
+
+        //もしキーワードがあったら
+        if(!empty($keyword))
+        {
+            $query->where('name','like','%'.$keyword.'%');
+            $query->orWhere('type','like','%'.$keyword.'%');
+            $query->orWhere('detail','like','%'.$keyword.'%');
+
+            $items = $query->paginate(5);
+        }
+        return view('item.search', compact('items', 'keyword'));
     }
 
     /**
      * 商品登録
      */
-    public function add(Request $request)
+    public function create(Request $request)
     {
         // POSTリクエストのとき
         if ($request->isMethod('post')) {
@@ -49,9 +74,57 @@ class ItemController extends Controller
                 'detail' => $request->detail,
             ]);
 
-            return redirect('/items');
+            return redirect()->route('items.index');
         }
 
-        return view('item.add');
+        return view('item.create');
+    }
+
+    /**
+     * 商品編集
+     */
+    public function edit($id)
+    {
+        $item = Item::find($id);
+        return view('item.edit', compact('item'));
+        // POSTリクエストのとき
+        // if ($request->isMethod('post')) {
+            // バリデーション
+            // $this->validate($request, [
+            //     'name' => 'required|max:100',
+            // ]);
+        
+            // 商品編集
+            // Item::update([
+            //     'user_id' => Auth::user()->id,
+            //     'name' => $request->name,
+            //     'type' => $request->type,
+            //     'detail' => $request->detail,
+            // ]);
+    }
+        // 編集処理
+        public function update(Request $request, $id)
+        {
+            // 既存のレコードを取得して、編集してから保存する
+            $item = Item::find($id);
+            $item->name = $request->name;
+            $item->type = $request->type;
+            $item->detail = $request->detail;
+    // dd($item);
+            $item->save();
+
+            return redirect()->route('items.index');
+        }
+
+    /**
+     * 商品削除
+     */
+    public function destroy($id)
+    {
+        // 既存のレコードを取得して、削除する
+        $item = Item::find($id);
+        $item->delete();
+
+        return redirect()->route('items.index');
     }
 }

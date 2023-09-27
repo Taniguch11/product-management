@@ -292,9 +292,25 @@ return [
     'menu' => [
         [
             'text' => '商品一覧',
-            'url'  => 'items',
+            'url'  => 'items/index',
             'icon' => 'fas fa-gamepad',
         ],
+        [
+            'text' => '商品登録',
+            'url'  => 'items/create',
+            'icon' => 'fas fa-plus',
+        ],
+        [
+            'text' => '商品検索',
+            'url'  => 'items/search',
+            'icon' => 'fas fa-search',
+        ],
+        [
+            'text' => '設定',
+            'url'  => 'items/',
+            'icon' => 'far fa-user',
+        ],
+
 
         // AdminLTEデフォルト
         /*

@@ -1,14 +1,23 @@
 @extends('adminlte::page')
 
-@section('title', '商品一覧')
+@section('title', '商品検索')
 
 @section('content_header')
-    <h1>商品一覧</h1>
+    <h1>商品検索</h1>
 @stop
 
 @section('content')
     <div class="row">
         <div class="col-12">
+            <div class="card card-body">
+                <form action="{{ route('items.search') }}" method="get" class="form-inline d-flex">
+                    @csrf
+                        <div class="form-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="キーワード検索">
+                        </div>
+                        <input type="submit" class="btn btn-sm btn-outline-primary" value="商品検索">
+                </form>
+            </div>
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">商品一覧</h3>
