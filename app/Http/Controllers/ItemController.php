@@ -37,17 +37,17 @@ class ItemController extends Controller
         $sort = $request->get('sort');
             if ($sort) {
                 if ($sort === '1') {
-                    $items = Item::orderBy('created_at', 'DESC')->get();
+                    $items = Item::orderBy('created_at')->get();
                     } elseif ($sort === '2') {
-                        $items = Item::orderBy('created_at', 'ASC')->get();
+                        $items = Item::orderBy('created_at', 'DESC')->get();
 
                     } elseif ($sort === '3') {
-                        $items = Item::orderBy('updated_at', 'DESC')->get();
+                        $items = Item::orderBy('updated_at')->get();
                     } elseif ($sort === '4') {
-                        $items = Item::orderBy('updated_at', 'ASC')->get();
+                        $items = Item::orderBy('updated_at', 'DESC')->get();
 
                     } elseif ($sort === '5') {
-                        $items = Item::orderBy('name', 'ASC')->get();
+                        $items = Item::orderBy('name')->get();
                     } elseif ($sort === '6') {
                         $items = Item::orderBy('name', 'DESC')->get();
                     }
@@ -55,6 +55,7 @@ class ItemController extends Controller
                 $items = Item::all();
             }
 
+        $items = Item::paginate(10)->withQueryString();
         return view('item.index', compact('items', 'sort'));
     }
 
@@ -80,7 +81,7 @@ class ItemController extends Controller
             $query->orWhere('type','like','%'.$keyword.'%');
             $query->orWhere('detail','like','%'.$keyword.'%');
 
-            $items = $query->paginate(5);
+            $items = $query->paginate(10);
         }
         return view('item.search', compact('items', 'keyword'));
     }
