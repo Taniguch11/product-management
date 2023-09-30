@@ -37,6 +37,13 @@
                             <label for="detail">詳細</label>
                             <input type="text" class="form-control" id="detail" name="detail" value="{{ $item->detail }}">
                         </div>
+                        <!-- TODO:画像を表示させる -->                        
+                        <div class="form-group">
+                            <label for="detail">画像</label>
+                            <img src="{{ Storage::url($item->img_path) }}">
+                        </div>
+                        <input type="file" name="img_path">
+
                     </div>
                     <div class="card-footer d-flex">
                             <button type="submit" class="btn btn-primary">更新</button>

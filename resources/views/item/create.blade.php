@@ -20,7 +20,7 @@
             @endif
 
             <div class="card card-primary">
-                <form action="{{ route('items.create')}}" method="POST">
+                <form action="{{ route('items.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
@@ -38,10 +38,13 @@
                             <input type="text" class="form-control" id="detail" name="detail" placeholder="詳細説明">
                         </div>
                     </div>
+                        <!-- 画像投稿フォーム -->
+                        <input type="file" name="img_path">
 
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">登録</button>
-                    </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">登録</button>
+                        </div>
+                    </form>
                 </form>
             </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
+use App\Models\Image;
 
 class ItemController extends Controller
 {
@@ -23,50 +24,21 @@ class ItemController extends Controller
      */
     public function index()
     {
-        // itemsテーブルに入っているレコードをすべて取得する
-        // $items = Item::all();
-        $items = Item::paginate(10)->withQueryString();
+        // itemsテーブルのレコードをすべて取得
+        // ソート機能とページネーションを設定
+        $items = Item::sortable()->paginate(10)->withQueryString();
+
         return view('item.index', compact('items'));
     }
-
-    /**
-     * ソート機能
-     */
-    public function list(Request $request)
-    {
-        $sort = $request->get('sort');
-            if ($sort) {
-                if ($sort === '1') {
-                    $items = Item::orderBy('created_at')->get();
-                    } elseif ($sort === '2') {
-                        $items = Item::orderBy('created_at', 'DESC')->get();
-
-                    } elseif ($sort === '3') {
-                        $items = Item::orderBy('updated_at')->get();
-                    } elseif ($sort === '4') {
-                        $items = Item::orderBy('updated_at', 'DESC')->get();
-
-                    } elseif ($sort === '5') {
-                        $items = Item::orderBy('name')->get();
-                    } elseif ($sort === '6') {
-                        $items = Item::orderBy('name', 'DESC')->get();
-                    }
-            } else {
-                $items = Item::all();
-            }
-
-        $items = Item::paginate(10)->withQueryString();
-        return view('item.index', compact('items', 'sort'));
-    }
-
+    
     /**
      * 商品検索
      */
     public function search(Request $request)
     {
-        // itemsテーブルに入っているレコードをすべて取得する
-        // $items = Item::all();
-        $items = Item::paginate(10);
+        // itemsテーブルのレコードをすべて取得
+        // ソート機能とページネーションを設定
+        $items = Item::sortable()->paginate(10)->withQueryString();
 
         //キーワード受け取り
         $keyword = $request->input('keyword');
@@ -106,6 +78,19 @@ class ItemController extends Controller
                 'detail' => $request->detail,
             ]);
 
+            // 画像登録
+            $img = $request->file('img_path');
+
+            if (isset($img)) {
+                // 取得したファイル名で保存 storage > public > img配下に保存
+                $path = $img->store('img', 'public');
+                // ファイル情報をDBに保存
+                if ($path) {
+                    Image::create([
+                        'img_path' => $path,
+                    ]);
+                }
+            }
             return redirect()->route('items.index');
         }
 

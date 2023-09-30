@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Kyslik\ColumnSortable\Sortable;
 
 class Item extends Model
 {
@@ -38,4 +39,6 @@ class Item extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    use Sortable;
 }

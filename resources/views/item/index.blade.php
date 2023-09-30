@@ -7,14 +7,12 @@
 @stop
 
 @section('content')
-    <form action="{{ route('items.list') }}">
-        <button type="submit" class="btn btn-outline-success" name="sort" value="@if (!isset($sort) || $sort !== '1') 1 @elseif ($sort === '1') 2 @endif">作成日順</button>
-        <button type="submit" class="btn btn-outline-success" name="sort" value="@if (!isset($sort) || $sort !== '3') 3 @elseif ($sort === '3') 4 @endif">更新日順</button>
-        <button type="submit" class="btn btn-outline-success" name="sort" value="@if (!isset($sort) || $sort !== '5') 5 @elseif ($sort === '5') 6 @endif">名前順</button>
-    </form>
     <div class="row">
         <div class="col-12">
             <div class="card">
+            @if(empty($items))
+                <p class="p-3">登録が0件です</p>
+            @endif
                 <div class="card-header">
                     <h3 class="card-title">商品一覧</h3>
                     <div class="card-tools">
@@ -30,11 +28,12 @@
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>ID</th>
-                                <th>名前</th>
-                                <th>種別</th>
+                                <th scope="col">@sortablelink('id', 'ID')</th>
+                                <th scope="col">@sortablelink('name', '名前')</th>
+                                <th scope="col">@sortablelink('type', '種別')</th>
                                 <th>詳細</th>
-                                <th>作成日</th>
+                                <th>商品写真</th>
+                                <th scope="col">@sortablelink('created_at', '作成日')</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -46,6 +45,7 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->type }}</td>
                                     <td>{{ $item->detail }}</td>
+                                    <td><img src="{{ Storage::url($item->img_path) }}" width="25%"></td>
                                     <td><small>{{$item->created_at}}</small></td>
                                     <td>
                                         <div class="input-group-edit">
