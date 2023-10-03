@@ -20,17 +20,22 @@
             @endif
 
             <div class="card card-primary">
-                <form action="{{ route('items.create') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
                             <label for="name">名前</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="名前">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="商品名">
                         </div>
 
                         <div class="form-group">
                             <label for="type">種別</label>
                             <input type="text" class="form-control" id="type" name="type" placeholder="種別">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="price">価格</label>
+                            <input type="number" class="form-control" id="price" name="price" placeholder="1000">
                         </div>
 
                         <div class="form-group">

@@ -34,7 +34,7 @@ Route::group(['prefix' => 'items', 'as' => 'items.'], function () {
     // 商品登録画面
     Route::get('create', [App\Http\Controllers\ItemController::class, 'create'])->name('create');
     // 登録機能
-    Route::post('create', [App\Http\Controllers\ItemController::class, 'create'])->name('create');
+    Route::post('store', [App\Http\Controllers\ItemController::class, 'store'])->name('store');
 
     // 商品編集画面
     Route::get('edit/{id}', [App\Http\Controllers\ItemController::class, 'edit'])->name('edit');

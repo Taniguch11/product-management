@@ -16,6 +16,7 @@ class Item extends Model
         'user_id',
         'name',
         'type',
+        'price',
         'detail',
     ];
 
@@ -41,4 +42,5 @@ class Item extends Model
     }
 
     use Sortable;
+
 }

@@ -31,6 +31,7 @@
                                 <th scope="col">@sortablelink('id', 'ID')</th>
                                 <th scope="col">@sortablelink('name', '名前')</th>
                                 <th scope="col">@sortablelink('type', '種別')</th>
+                                <th scope="col">@sortablelink('price', '価格')</th>
                                 <th>詳細</th>
                                 <th>商品写真</th>
                                 <th scope="col">@sortablelink('created_at', '作成日')</th>
@@ -44,6 +45,7 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->type }}</td>
+                                    <td>{{ $item->price }}</td>
                                     <td>{{ $item->detail }}</td>
                                     <td><img src="{{ Storage::url($item->img_path) }}" width="25%"></td>
                                     <td><small>{{$item->created_at}}</small></td>

@@ -51,6 +51,7 @@ class ItemController extends Controller
         {
             $query->where('name','like','%'.$keyword.'%');
             $query->orWhere('type','like','%'.$keyword.'%');
+            $query->orWhere('price','like','%'.$keyword.'%');
             $query->orWhere('detail','like','%'.$keyword.'%');
 
             $items = $query->paginate(10);
@@ -61,22 +62,28 @@ class ItemController extends Controller
     /**
      * 商品登録
      */
-    public function create(Request $request)
+    public function create()
+    {
+        return view('item.create');
+    }
+
+    public function store(Request $request)
     {
         // POSTリクエストのとき
-        if ($request->isMethod('post')) {
+        // if ($request->isMethod('post')) {
             // バリデーション
             $this->validate($request, [
                 'name' => 'required|max:100',
             ]);
 
-            // 商品登録
-            Item::create([
-                'user_id' => Auth::user()->id,
-                'name' => $request->name,
-                'type' => $request->type,
-                'detail' => $request->detail,
-            ]);
+        // 商品登録
+        Item::create([
+            'user_id' => Auth::user()->id,
+            'name' => $request->name,
+            'type' => $request->type,
+            'price' => $request->price,
+            'detail' => $request->detail,
+        ]);
 
             // 画像登録
             $img = $request->file('img_path');
@@ -93,9 +100,6 @@ class ItemController extends Controller
             }
             return redirect()->route('items.index');
         }
-
-        return view('item.create');
-    }
 
     /**
      * 商品編集
@@ -126,6 +130,7 @@ class ItemController extends Controller
             $item = Item::find($id);
             $item->name = $request->name;
             $item->type = $request->type;
+            $item->price = $request->price;
             $item->detail = $request->detail;
     // dd($item);
             $item->save();
