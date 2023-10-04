@@ -29,18 +29,29 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="type">種別</label>
-                            <input type="text" class="form-control" id="type" name="type" value="{{ $item->type }}">
+                            <label for="category-id">{{ __('カテゴリー') }}<span class="badge badge-danger ml-2">{{ __('必須') }}</span></label>
+                            <select class="form-control" id="category-id" name="category_id">
+                            <option value="">{{ config('category')[$item->category_id] }}</option>
+                            @foreach (config("category") as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price">価格</label>
+                            <input type="number" class="form-control" id="price" name="price" value="{{ $item->price }}">
                         </div>
 
                         <div class="form-group">
                             <label for="detail">詳細</label>
                             <input type="text" class="form-control" id="detail" name="detail" value="{{ $item->detail }}">
                         </div>
-                        <!-- TODO:画像を表示させる -->                        
+
                         <div class="form-group">
                             <label for="detail">画像</label>
-                            <img src="{{ Storage::url($item->img_path) }}">
+                            <img src="{{ asset('/storage/' . $item->img_path) }}" width="50%">
+
                         </div>
                         <input type="file" name="img_path">
 

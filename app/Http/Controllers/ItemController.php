@@ -62,9 +62,10 @@ class ItemController extends Controller
     /**
      * 商品登録
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('item.create');
+        $items = new Item();
+        return view('item.create', compact('items'));
     }
 
     public function store(Request $request)
@@ -76,30 +77,26 @@ class ItemController extends Controller
                 'name' => 'required|max:100',
             ]);
 
-        // 商品登録
+        // 画像フォームでリクエストした画像を取得
+        $img = $request->file('img_path');
+        // TODO:画像投稿を必須にしない場合はnullを初期値にしてif文に入る
+        // $img_path = null;
+
+        if (isset($img)) {
+            // storage > public > img配下に保存
+            $path = $img->store('img', 'public');
+        }
         Item::create([
             'user_id' => Auth::user()->id,
             'name' => $request->name,
-            'type' => $request->type,
+            'category_id' => $request->category_id,
             'price' => $request->price,
             'detail' => $request->detail,
+            'img_path' => $path,
         ]);
 
-            // 画像登録
-            $img = $request->file('img_path');
-
-            if (isset($img)) {
-                // 取得したファイル名で保存 storage > public > img配下に保存
-                $path = $img->store('img', 'public');
-                // ファイル情報をDBに保存
-                if ($path) {
-                    Image::create([
-                        'img_path' => $path,
-                    ]);
-                }
-            }
-            return redirect()->route('items.index');
-        }
+        return redirect()->route('items.index');
+    }
 
     /**
      * 商品編集
@@ -128,11 +125,16 @@ class ItemController extends Controller
         {
             // 既存のレコードを取得して、編集してから保存する
             $item = Item::find($id);
+
+            if($request->file('img_path')){
+                // storage > public > img配下に保存
+                $path = $img->store('img', 'public');
+            }
             $item->name = $request->name;
-            $item->type = $request->type;
+            // $item->category_id = $request->category_id;
             $item->price = $request->price;
             $item->detail = $request->detail;
-    // dd($item);
+            // $item->img_path = $path;
             $item->save();
 
             return redirect()->route('items.index');

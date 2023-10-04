@@ -33,9 +33,10 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th scope="col">@sortablelink('id', 'ID')</th>
                                 <th scope="col">@sortablelink('name', '名前')</th>
-                                <th scope="col">@sortablelink('type', '種別')</th>
+                                <th scope="col">@sortablelink('type', 'カテゴリー')</th>
                                 <th scope="col">@sortablelink('price', '価格')</th>
                                 <th>詳細</th>
                                 <th>商品写真</th>
@@ -44,13 +45,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($items as $item)
+                        @foreach ($items as $item)
                                 <tr>
+                                    <td><span class="badge badge-pill badge-danger" data-postdate="{{ $item->created_at }}">NEW</span></td>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ $item->type }}</td>
+                                    <td>{{ config('category')[$item->category_id] }}</td>
+                                    <td>{{ $item->price }}</td>
                                     <td>{{ $item->detail }}</td>
-                                    <td><img src="{{ Storage::url($item->img_path) }}" width="25%"></td>
+                                    <td><img src="{{ asset('/storage/' . $item->img_path) }}" width="10%"></td>
                                     <td><small>{{$item->created_at}}</small></td>
                                     <td>
                                         <div class="input-group-edit">

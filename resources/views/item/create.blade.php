@@ -29,8 +29,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="type">種別</label>
-                            <input type="text" class="form-control" id="type" name="type" placeholder="種別">
+                            <label for="category-id">{{ __('カテゴリー') }}<span class="badge badge-danger ml-2">{{ __('必須') }}</span></label>
+                            <select class="form-control" id="category-id" name="category_id">
+                            <option value="">選択してください</option>
+                            @foreach (config("category") as $key => $value)
+                                <option value="{{ $key }}">{{ $value }}</option>
+                            @endforeach
+                        </select>
                         </div>
                         
                         <div class="form-group">

@@ -15,9 +15,10 @@ class Item extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'type',
+        'category_id',
         'price',
         'detail',
+        'img_path',
     ];
 
     /**
@@ -39,6 +40,11 @@ class Item extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->hasMany(Category::class);
     }
 
     use Sortable;
