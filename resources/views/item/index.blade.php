@@ -10,9 +10,6 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
-            @if(empty($items))
-                <p class="p-3">登録が0件です</p>
-            @endif
                 <div class="card-header">
                     <h3 class="card-title">商品一覧</h3>
                     <div class="card-tools">
@@ -30,7 +27,7 @@
                                 <th></th>
                                 <th scope="col">@sortablelink('id', 'ID')</th>
                                 <th scope="col">@sortablelink('name', '名前')</th>
-                                <th scope="col">@sortablelink('type', 'カテゴリー')</th>
+                                <th scope="col">カテゴリー</th>
                                 <th scope="col">@sortablelink('price', '価格')</th>
                                 <th>詳細</th>
                                 <th>商品写真</th>
@@ -47,7 +44,7 @@
                                     <td>{{ config('category')[$item->category_id] }}</td>
                                     <td>{{ $item->price }}</td>
                                     <td>{{ $item->detail }}</td>
-                                    <td><img src="{{ asset('/storage/' . $item->img_path) }}" width="10%"></td>
+                                    <td><img src="{{ asset('/storage/' . $item->img_path) }}" width="15%"></td>
                                     <td><small>{{$item->created_at}}</small></td>
                                     <td>
                                         <div class="input-group-edit">
@@ -66,6 +63,9 @@
 
                     {!! $items->links('pagination::bootstrap-5') !!}
                 </div>
+                @if(empty($item))
+                    <p class="p-3">登録されたデータがありません</p>
+                @endif
             </div>
         </div>
     </div>
@@ -92,9 +92,9 @@
     for (var i = 0; i < postdate.length; i++) {
         var d = new Date(postdate[i].dataset.postdate);
         d.setDate(d.getDate() + periodDay);
-    if(current < d) {
-        postdate[i].classList.add('is-show');
+        if(current < d) {
+            postdate[i].classList.add('is-show');
+        }
     }
-}
 </script>
 @stop

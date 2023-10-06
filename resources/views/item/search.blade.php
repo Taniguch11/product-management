@@ -12,10 +12,10 @@
             <div class="card card-body">
                 <form action="{{ route('items.search') }}" method="get" class="form-inline d-flex">
                     @csrf
-                        <div class="form-group">
-                            <input type="text" name="keyword" class="form-control" placeholder="キーワード検索">
+                        <div class="flex-grow-1">
+                            <input type="text" name="keyword" class="form-control w-50" placeholder="キーワード検索（名前、価格、詳細など）">
+                            <input type="submit" class="btn btn-sm btn-outline-primary" value="商品検索">
                         </div>
-                        <input type="submit" class="btn btn-sm btn-outline-primary" value="商品検索">
                 </form>
             </div>
             <div class="card">
@@ -36,7 +36,7 @@
                                 <th></th>
                                 <th scope="col">@sortablelink('id', 'ID')</th>
                                 <th scope="col">@sortablelink('name', '名前')</th>
-                                <th scope="col">@sortablelink('type', 'カテゴリー')</th>
+                                <th scope="col">カテゴリー</th>
                                 <th scope="col">@sortablelink('price', '価格')</th>
                                 <th>詳細</th>
                                 <th>商品写真</th>
@@ -46,22 +46,22 @@
                         </thead>
                         <tbody>
                         @foreach ($items as $item)
-                                <tr>
-                                    <td><span class="badge badge-pill badge-danger" data-postdate="{{ $item->created_at }}">NEW</span></td>
-                                    <td>{{ $item->id }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ config('category')[$item->category_id] }}</td>
-                                    <td>{{ $item->price }}</td>
-                                    <td>{{ $item->detail }}</td>
-                                    <td><img src="{{ asset('/storage/' . $item->img_path) }}" width="10%"></td>
-                                    <td><small>{{$item->created_at}}</small></td>
-                                    <td>
-                                        <div class="input-group-edit">
-                                            <a href="/items/edit/{{ $item->id }}" class="btn btn-default">編集</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            <tr>
+                                <td><span class="badge badge-pill badge-danger" data-postdate="{{ $item->created_at }}">NEW</span></td>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ config('category')[$item->category_id] }}</td>
+                                <td>{{ $item->price }}</td>
+                                <td>{{ $item->detail }}</td>
+                                <td><img src="{{ asset('/storage/' . $item->img_path) }}" width="15%"></td>
+                                <td><small>{{$item->created_at}}</small></td>
+                                <td>
+                                    <div class="input-group-edit">
+                                        <a href="/items/edit/{{ $item->id }}" class="btn btn-default">編集</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
 
@@ -72,6 +72,9 @@
                 
                     {!! $items->withQueryString()->links('pagination::bootstrap-5') !!}
                 </div>
+                @if(empty($item))
+                    <p class="p-3">登録されたデータがありません</p>
+                @endif
             </div>
         </div>
     </div>

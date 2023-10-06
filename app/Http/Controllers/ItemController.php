@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
-use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 
 class ItemController extends Controller
 {
@@ -26,7 +26,7 @@ class ItemController extends Controller
     {
         // itemsテーブルのレコードをすべて取得
         // ソート機能とページネーションを設定
-        $items = Item::sortable()->paginate(10)->withQueryString();
+        $items = Item::sortable()->paginate(5)->withQueryString();
 
         return view('item.index', compact('items'));
     }
@@ -38,7 +38,7 @@ class ItemController extends Controller
     {
         // itemsテーブルのレコードをすべて取得
         // ソート機能とページネーションを設定
-        $items = Item::sortable()->paginate(10)->withQueryString();
+        $items = Item::sortable()->paginate(5)->withQueryString();
 
         //キーワード受け取り
         $keyword = $request->input('keyword');
@@ -50,7 +50,6 @@ class ItemController extends Controller
         if(!empty($keyword))
         {
             $query->where('name','like','%'.$keyword.'%');
-            $query->orWhere('type','like','%'.$keyword.'%');
             $query->orWhere('price','like','%'.$keyword.'%');
             $query->orWhere('detail','like','%'.$keyword.'%');
 
@@ -70,19 +69,19 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
-        // POSTリクエストのとき
-        // if ($request->isMethod('post')) {
-            // バリデーション
-            $this->validate($request, [
-                'name' => 'required|max:100',
-            ]);
+        // バリデーション
+        $this->validate($request, [
+            'name' => 'required|max:100',
+            'category_id' => 'required',
+            'price' => 'required|min:1',
+            'detail' => 'nullable|max:250',
+            'img_path' =>'required',
+        ]);
 
         // 画像フォームでリクエストした画像を取得
         $img = $request->file('img_path');
-        // TODO:画像投稿を必須にしない場合はnullを初期値にしてif文に入る
-        // $img_path = null;
 
-        if (isset($img)) {
+        if(isset($img)) {
             // storage > public > img配下に保存
             $path = $img->store('img', 'public');
         }
@@ -105,37 +104,37 @@ class ItemController extends Controller
     {
         $item = Item::find($id);
         return view('item.edit', compact('item'));
-        // POSTリクエストのとき
-        // if ($request->isMethod('post')) {
-            // バリデーション
-            // $this->validate($request, [
-            //     'name' => 'required|max:100',
-            // ]);
-        
-            // 商品編集
-            // Item::update([
-            //     'user_id' => Auth::user()->id,
-            //     'name' => $request->name,
-            //     'type' => $request->type,
-            //     'detail' => $request->detail,
-            // ]);
     }
+
         // 編集処理
         public function update(Request $request, $id)
         {
+            // バリデーション
+            $this->validate($request, [
+                'name' => 'required|max:100',
+                // 'category_id' => 'required',
+                'price' => 'required|min:1',
+                'detail' => 'nullable|max:250',
+                // 画像の更新はnullでいい？？
+                'img_path' =>'nullable',
+            ]);
+
+
             // 既存のレコードを取得して、編集してから保存する
             $item = Item::find($id);
-
-            if($request->file('img_path')){
-                // storage > public > img配下に保存
+            $img = $request->file('img_path');
+            
+            if(isset($img)) {
+                Storage::disk('public')->delete($item->img_path);
                 $path = $img->store('img', 'public');
+                $item->img_path = $path;
             }
             $item->name = $request->name;
-            // $item->category_id = $request->category_id;
+// カテゴリー編集と画像編集がつながっている
+            $item->category_id = $request->category_id;
             $item->price = $request->price;
             $item->detail = $request->detail;
-            // $item->img_path = $path;
-            $item->save();
+            $item->update();    
 
             return redirect()->route('items.index');
         }
@@ -145,10 +144,14 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        // 既存のレコードを取得して、削除する
+        // 既存のレコードを取得
         $item = Item::find($id);
+        // VScodeからも画像を削除
+        Storage::disk('public')->delete($item->img_path);
+// dd($item);
         $item->delete();
 
         return redirect()->route('items.index');
     }
+
 }

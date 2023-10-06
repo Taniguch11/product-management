@@ -20,7 +20,7 @@
             @endif
 
             <div class="card card-primary">
-                <form action="{{ route('items.update', $item->id) }}" method="POST" onsubmit="return confirm('上書きします。よろしいですか？');">
+                <form action="{{ route('items.update', $item->id) }}" method="POST" enctype="multipart/form-data" onsubmit="return confirm('上書きします。よろしいですか？');">
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
@@ -29,11 +29,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="category-id">{{ __('カテゴリー') }}<span class="badge badge-danger ml-2">{{ __('必須') }}</span></label>
+                            <label for="category-id">カテゴリー</label>
                             <select class="form-control" id="category-id" name="category_id">
-                            <option value="">{{ config('category')[$item->category_id] }}</option>
                             @foreach (config("category") as $key => $value)
-                                <option value="{{ $key }}">{{ $value }}</option>
+                                <option value="{{ $key }}" {{ $key == $item->category_id ? "selected" : null }}>{{ $value }}</option>
                             @endforeach
                             </select>
                         </div>
@@ -49,12 +48,15 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="detail">画像</label>
-                            <img src="{{ asset('/storage/' . $item->img_path) }}" width="50%">
-
+                            <label for="detail"></label>
+                            <img src="{{ asset('/storage/' . $item->img_path) }}" width="40%">
                         </div>
-                        <input type="file" name="img_path">
 
+                        <div class="form-group">
+                            <label for="img_path"></label>
+                            <br>
+                            <input type="file" name="img_path">
+                        </div>
                     </div>
                     <div class="card-footer d-flex">
                             <button type="submit" class="btn btn-primary">更新</button>

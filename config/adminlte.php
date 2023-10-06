@@ -306,8 +306,8 @@ return [
             'icon' => 'fas fa-search',
         ],
         [
-            'text' => '設定',
-            'url'  => 'items/',
+            'text' => 'ユーザー設定',
+            'url'  => '/profile',
             'icon' => 'far fa-user',
         ],
 

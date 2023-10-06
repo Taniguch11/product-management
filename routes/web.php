@@ -43,3 +43,12 @@ Route::group(['prefix' => 'items', 'as' => 'items.'], function () {
     // 削除機能
     Route::post('destroy/{id}', [App\Http\Controllers\ItemController::class, 'destroy'])->name('destroy');
 });
+
+Route::group(['middleware' => 'auth'], function () {
+    //プロフィール編集画面表示
+    Route::get('/profile', [App\Http\Controllers\UserController::class, 'show'])->name('profile');
+    //プロフィール編集
+    Route::put('/profile', [App\Http\Controllers\UserController::class, 'profileUpdate'])->name('profile_edit');
+    //パスワード編集
+    Route::put('/password_change', [App\Http\Controllers\UserController::class, 'passwordUpdate'])->name('password_edit');
+    });
