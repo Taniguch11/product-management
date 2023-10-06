@@ -32,6 +32,7 @@
                                 <th>詳細</th>
                                 <th>商品写真</th>
                                 <th scope="col">@sortablelink('created_at', '作成日')</th>
+                                <th scope="col">@sortablelink('updated_at', '更新日')</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -46,6 +47,7 @@
                                     <td>{{ $item->detail }}</td>
                                     <td><img src="{{ asset('/storage/' . $item->img_path) }}" width="15%"></td>
                                     <td><small>{{$item->created_at}}</small></td>
+                                    <td><small>{{$item->updated_at}}</small></td>
                                     <td>
                                         <div class="input-group-edit">
                                             <a href="/items/edit/{{ $item->id }}" class="btn btn-default">編集</a>

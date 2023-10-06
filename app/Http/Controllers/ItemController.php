@@ -112,13 +112,11 @@ class ItemController extends Controller
             // バリデーション
             $this->validate($request, [
                 'name' => 'required|max:100',
-                // 'category_id' => 'required',
+                'category_id' => 'required',
                 'price' => 'required|min:1',
                 'detail' => 'nullable|max:250',
-                // 画像の更新はnullでいい？？
                 'img_path' =>'nullable',
-            ]);
-
+                ]);
 
             // 既存のレコードを取得して、編集してから保存する
             $item = Item::find($id);
@@ -130,7 +128,6 @@ class ItemController extends Controller
                 $item->img_path = $path;
             }
             $item->name = $request->name;
-// カテゴリー編集と画像編集がつながっている
             $item->category_id = $request->category_id;
             $item->price = $request->price;
             $item->detail = $request->detail;
@@ -148,10 +145,8 @@ class ItemController extends Controller
         $item = Item::find($id);
         // VScodeからも画像を削除
         Storage::disk('public')->delete($item->img_path);
-// dd($item);
         $item->delete();
 
         return redirect()->route('items.index');
     }
-
 }
