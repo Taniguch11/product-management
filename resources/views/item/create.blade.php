@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <label for="img_path">{{ __('商品画像') }}<span class="badge badge-danger rounded-pill ml-2">{{ __('必須') }}</span></label>
                             <br>
-                            <input type="file" name="img_path">
+                            <input type="file" name="img_path" class="form-control-file">
                         </div>
                     </div>
 

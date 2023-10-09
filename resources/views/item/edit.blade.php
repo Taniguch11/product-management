@@ -49,7 +49,7 @@
 
                         <div class="form-group">
                             <label for="detail"></label>
-                            <img src="{{ asset('/storage/' . $item->img_path) }}" width="30%">
+                            <img src="data:img_path/png;base64,{{ $item->img_path }}" width=25%>
                         </div>
 
                         <div class="form-group">

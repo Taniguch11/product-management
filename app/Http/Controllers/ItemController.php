@@ -63,8 +63,7 @@ class ItemController extends Controller
      */
     public function create(Request $request)
     {
-        $items = new Item();
-        return view('item.create', compact('items'));
+        return view('item.create');
     }
 
     public function store(Request $request)
@@ -75,23 +74,27 @@ class ItemController extends Controller
             'category_id' => 'required',
             'price' => 'required|min:1',
             'detail' => 'nullable|max:250',
-            'img_path' =>'required',
+            'img_path' =>'file|max:40',
         ]);
 
         // 画像フォームでリクエストした画像を取得
+        $items = new Item();
         $img = $request->file('img_path');
 
         if(isset($img)) {
             // storage > public > img配下に保存
-            $path = $img->store('img', 'public');
+            // $path = $img->store('img', 'public');
+            //POSTされた画像ファイルデータ取得しbase64でエンコードする
+            $img_path = base64_encode(file_get_contents($request->img_path->getRealPath()));
         }
+
         Item::create([
             'user_id' => Auth::user()->id,
             'name' => $request->name,
             'category_id' => $request->category_id,
             'price' => $request->price,
             'detail' => $request->detail,
-            'img_path' => $path,
+            'img_path' => $img_path,
         ]);
 
         return redirect()->route('items.index');
@@ -115,7 +118,7 @@ class ItemController extends Controller
                 'category_id' => 'required',
                 'price' => 'required|min:1',
                 'detail' => 'nullable|max:250',
-                'img_path' =>'nullable',
+                'img_path' =>'file|max:40',
                 ]);
 
             // 既存のレコードを取得して、編集してから保存する
@@ -123,9 +126,9 @@ class ItemController extends Controller
             $img = $request->file('img_path');
             
             if(isset($img)) {
-                Storage::disk('public')->delete($item->img_path);
-                $path = $img->store('img', 'public');
-                $item->img_path = $path;
+                // Storage::disk('public')->delete($item->img_path);
+                $img_path = base64_encode(file_get_contents($request->img_path->getRealPath()));
+                $item->img_path = $img_path;
             }
             $item->name = $request->name;
             $item->category_id = $request->category_id;
@@ -144,7 +147,7 @@ class ItemController extends Controller
         // 既存のレコードを取得
         $item = Item::find($id);
         // VScodeからも画像を削除
-        Storage::disk('public')->delete($item->img_path);
+        // Storage::disk('public')->delete($item->img_path);
         $item->delete();
 
         return redirect()->route('items.index');
