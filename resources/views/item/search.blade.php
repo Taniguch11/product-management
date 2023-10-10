@@ -72,7 +72,7 @@
                     {!! $items->withQueryString()->links() !!}        
                 -->
                 
-                    {!! $items->withQueryString()->links('pagination::bootstrap-5') !!}
+                    {!! $items->links('pagination::bootstrap-5') !!}
                 </div>
                 @if(empty($item))
                     <p class="p-3">登録されたデータがありません</p>
@@ -83,7 +83,29 @@
 @stop
 
 @section('css')
+<style>
+    .badge {
+    display: none;
+    }
+    .badge.is-show {
+        display: inline-block;
+    }
+</style>
 @stop
 
 @section('js')
+<script>
+    // newアイコンの表示日数 
+    var periodDay = 1;
+
+    var current = new Date();
+    var postdate = document.querySelectorAll('[data-postdate]');
+    for (var i = 0; i < postdate.length; i++) {
+        var d = new Date(postdate[i].dataset.postdate);
+        d.setDate(d.getDate() + periodDay);
+        if(current < d) {
+            postdate[i].classList.add('is-show');
+        }
+    }
+</script>
 @stop
