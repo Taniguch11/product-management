@@ -54,7 +54,7 @@
                                 <td>{{ config('category')[$item->category_id] }}</td>
                                 <td>{{ $item->price }}</td>
                                 <td>{{ $item->detail }}</td>
-                                <td><img src="{{ asset('/storage/' . $item->img_path) }}" width="15%"></td>
+                                <td><img src="data:img_path/png;base64,{{ $item->img_path }}" width=15%></td>
                                 <td><small>{{$item->created_at}}</small></td>
                                 <td><small>{{$item->updated_at}}</small></td>
                                 <td>
