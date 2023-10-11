@@ -74,7 +74,7 @@ class ItemController extends Controller
             'category_id' => 'required',
             'price' => 'required|min:1',
             'detail' => 'nullable|max:250',
-            'img_path' =>'file|max:40',
+            'img_path' =>'required|file|max:40',     // 40KBまで
         ]);
 
         // 画像フォームでリクエストした画像を取得
@@ -118,7 +118,7 @@ class ItemController extends Controller
                 'category_id' => 'required',
                 'price' => 'required|min:1',
                 'detail' => 'nullable|max:250',
-                'img_path' =>'file|max:40',
+                'img_path' =>'required|file|max:40',     // 40KBまで
                 ]);
 
             // 既存のレコードを取得して、編集してから保存する
