@@ -17,6 +17,7 @@
         "laravelcollective/html": "^6.4"
     },
     "require-dev": {
+        "askdkc/breezejp": "^1.7",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
