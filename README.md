@@ -1,43 +1,32 @@
-## 商品管理システム
+# 商品管理システム
 
-### 環境構築手順
+## 概要
+このシステムでは、ホームページで紹介する商品をWebシステムで管理することができます。<br>
+商品の新規登録から編集、削除を簡単に行うことができ、登録されたデータの一覧はソート機能で並び替えたり、キーワード検索をすることができます。
 
-* Gitクローン
-* .env.example をコピーして .env を作成
-* MySQLのデータベース作成（名前：item_management）
-* Macの場合 .env の DB_PASSWORD を root に修正（Windowsは修正不要）
+## 主な機能
+- ログイン・ログアウト機能
+- 商品一覧画面
+- 商品新規登録、編集、削除機能
+- 商品検索機能
+- 商品ソート機能
+- ユーザー情報編集機能
 
-    ```INI
-    DB_PASSWORD=root
-    ```
+## 開発環境
+```
+PHP 8.2.4
+MySQL 8.0.28
+Laravel 10.13.5
+```
 
-* APP_KEY生成
+## 設計書
+[設計書ページへ](https://drive.google.com/drive/folders/1V_ekzR0mD7MgKOdGXoRzbAKZU4CcukmZ)
 
-    ```console
-    php artisan key:generate
-    ```
+## システム閲覧
+[アプリケーションページへ](https://item-management-system-53462b59c13d.herokuapp.com/)
 
-* Composerインストール
-
-    ```console
-    composer install
-    ```
-
-* フロント環境構築
-
-    ```console
-    npm ci
-    npm run build
-    ```
-
-* マイグレーション
-
-    ```console
-    php artisan migrate
-    ```
-
-* 起動
-
-    ```console
-    php artisan serve
-    ```
+## テストアカウント情報
+```
+メールアドレス : new1@example.com
+パスワード : password1
+```
