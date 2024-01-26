@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', '商品登録')
+@section('title', 'MOVIE ADDITION')
 
 @section('content_header')
-    <h1>商品登録</h1>
+    <h1>MOVIE ADDITION</h1>
 @stop
 
 @section('content')
@@ -24,12 +24,14 @@
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                        <label for="name">{{ __('名前') }}<span class="badge badge-danger rounded-pill ml-2">{{ __('必須') }}</span></label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="商品名">
+                        <label for="name">{{ __('タイトル') }}</label><br>
+                        <span class="badge badge-danger rounded-pill ml-2">{{ __('必須') }}</span>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="映画のタイトル">
                         </div>
 
                         <div class="form-group">
-                            <label for="category-id">{{ __('カテゴリー') }}<span class="badge badge-danger rounded-pill ml-2">{{ __('必須') }}</span></label>
+                            <label for="category-id">{{ __('カテゴリー') }}</label><br>
+                                <span class="badge badge-danger rounded-pill ml-2">{{ __('必須') }}</span>
                             <select class="form-control" id="category-id" name="category_id">
                             <option value="">選択してください</option>
                             @foreach (config("category") as $key => $value)
@@ -39,8 +41,15 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="price">{{ __('価格') }}<span class="badge badge-danger rounded-pill ml-2">{{ __('必須') }}</span></label>
-                            <input type="number" class="form-control" id="price" name="price" placeholder="1000">
+                            <label for="price">{{ __('公開年') }}</label><br>
+                                <span class="badge badge-danger rounded-pill ml-2">{{ __('必須') }}</span>
+                            <input type="number" class="form-control" id="price" name="price" placeholder="2024/1/5
+                            ">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cast">キャスト</label>
+                            <input type="text" class="form-control" id="cast" name="cast" placeholder="メインキャスト、注目の俳優など">
                         </div>
 
                         <div class="form-group">
@@ -50,7 +59,8 @@
 
                         <!-- 画像投稿フォーム -->
                         <div class="form-group">
-                            <label for="img_path">{{ __('商品画像') }}<span class="badge badge-danger rounded-pill ml-2">{{ __('必須') }}</span></label>
+                            <label for="img_path">{{ __('商品画像') }}</label><br>
+                                <span class="badge badge-danger rounded-pill ml-2">{{ __('必須') }}</span>
                             <br>
                             <input type="file" name="img_path" class="form-control-file">
                         </div>

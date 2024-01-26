@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', '商品編集')
+@section('title', 'MOVIE EDIT')
 
 @section('content_header')
-    <h1>商品編集</h1>
+    <h1>MOVIE EDIT</h1>
 @stop
 
 @section('content')
@@ -38,8 +38,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="price">価格</label>
+                            <label for="price">公開年</label>
                             <input type="number" class="form-control" id="price" name="price" value="{{ $item->price }}">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cast">キャスト</label>
+                            <input type="number" class="form-control" id="cast" name="cast" value="{{ $item->cast }}">
                         </div>
 
                         <div class="form-group">
